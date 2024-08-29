@@ -13,5 +13,6 @@
       "require": "./src/index.js",
       "import": "./src/index.js"
     }
-  }
+  },
+  "type": "module"
 }
