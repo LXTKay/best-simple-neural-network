@@ -1,6 +1,6 @@
 "use strict";
 import { randomNumberBetween, randomFloatBetween } from "./utility/randomNumberBetween.js";
-import reLu from "./utility/reLU.js";
+import reLU from "./utility/reLU.js";
 import softmax from "./utility/softmax.js";
 
 class Node {
@@ -23,20 +23,17 @@ class NeuralNetwork {
     amountOutputNodes,
     amountHiddenLayers,
     amountNodesPerLayer,
-    weightGenerator = function () { return randomNumberBetween(-1, 1); },
-    biasGenerator = function () { return randomNumberBetween(-1, 1); }
+    weightGenerator = function () { return randomFloatBetween(-1, 1); },
+    biasGenerator = function () { return randomFloatBetween(-1, 1); }
   ) {
-    try {
-      if (!Number.isInteger(amountInputNodes)) throw new TypeError("Amount of InputNodes must be an integer");
-      if (!Number.isInteger(amountOutputNodes)) throw new TypeError("Amount of OutputNodes must be an integer");
-      if (!Number.isInteger(amountHiddenLayers)) throw new TypeError("Amount of HiddenLayers must be an integer");
-      if (!Number.isInteger(amountNodesPerLayer)) throw new TypeError("Amount of NodesPerLayer must be an integer");
-      if (typeof weightGenerator !== "function") throw new TypeError("WeightGenerator must be a function");
-      if (typeof biasGenerator !== "function") throw new TypeError("BiasGenerator must be a function");
-    }
-    catch (e) {
-      throw e;
-    }
+
+    if (!Number.isInteger(amountInputNodes)) throw new TypeError("Amount of InputNodes must be an integer");
+    if (!Number.isInteger(amountOutputNodes)) throw new TypeError("Amount of OutputNodes must be an integer");
+    if (!Number.isInteger(amountHiddenLayers)) throw new TypeError("Amount of HiddenLayers must be an integer");
+    if (!Number.isInteger(amountNodesPerLayer)) throw new TypeError("Amount of NodesPerLayer must be an integer");
+    if (typeof weightGenerator !== "function") throw new TypeError("WeightGenerator must be a function");
+    if (typeof biasGenerator !== "function") throw new TypeError("BiasGenerator must be a function");
+
 
     const nodes = [];
     // create input nodes
@@ -101,37 +98,31 @@ class NeuralNetwork {
   }
 
   fire(userInputs) {
-    if (userInputs.length !== this.nodes[0].length) {
-      throw new Error("Input array must have same length as the input layer");
-    }
-    console.log("Firing Neural Network with inputs: " + userInputs);
-    let nextLayerValues = []
+    let nextLayerValues = [];
     for (let i = 0; i < this.nodes[1].length; i++) {
       let currentValue = 0;
-      for (let node of this.nodes[0]) {
-        currentValue += userInputs[i] * node.edges[i].weight + node.edges[i].nextNode.bias;
+      for (let j = 0; j < this.nodes[0].length; j++) {
+        currentValue += userInputs[j] * this.nodes[0][j].edges[i].weight;
       }
-      nextLayerValues.push(this.neuronActivationFunction(currentValue))
+      nextLayerValues.push(this.neuronActivationFunction(currentValue + this.nodes[1][i].bias));
     }
 
-    console.log("Neural Network Input LayerOutput: " + nextLayerValues);
-    console.log("Moving on to hidden layers...")
-
-    let newValuesArray = []
-    for (let currentLayerIndex = 1; currentLayerIndex - 1 < this.nodes.length; currentLayerIndex++) {
-      console.log("Current Layer: " + currentLayerIndex);
-      for (let i = 0; i < this.nodes[currentLayerIndex + 1].length; i++) {
+    let currentLayerValues = nextLayerValues;
+    nextLayerValues = [];
+    for (let i = 1; i < this.nodes.length - 1; i++) {
+      for (let j = 0; j < this.nodes[i + 1].length; j++) {
         let currentValue = 0;
-        for (let node of this.nodes[currentLayerIndex]) {
-          currentValue += nextLayerValues[i] * node.edges[i].weight + node.edges[i].nextNode.bias;
+        for (let k = 0; k < this.nodes[i].length; k++) {
+          currentValue += currentLayerValues[k] * this.nodes[i][k].edges[j].weight;
         }
-        newValuesArray.push(this.neuronActivationFunction(currentValue))
+        nextLayerValues.push(this.neuronActivationFunction(currentValue + this.nodes[i + 1][j].bias));
       }
-      nextLayerValues = newValuesArray;
+      currentLayerValues = nextLayerValues;
+      nextLayerValues = [];
     }
 
-    if (typeof this.finalOperation !== "function") return nextLayerValues;
-    return this.finalOperation(nextLayerValues);
+    if (typeof this.finalOperation !== "function") return currentLayerValues;
+    return this.finalOperation(currentLayerValues);
 
   }
   finalOperation = softmax;
@@ -143,8 +134,10 @@ class NeuralNetwork {
     this.finalOperation = value;
   }
   //Utilities
-  neuronActivationFunction = reLu;
-  reLu = reLu;
+  static randomFloatBetween = randomFloatBetween;
+  static randomNumberBetween = randomNumberBetween;
+  neuronActivationFunction = reLU;
+  reLU = reLU;
 
 }
 
