@@ -51,7 +51,6 @@ class NeuralNetwork {
     if (typeof weightGenerator !== "function") throw new TypeError("WeightGenerator must be a function");
     if (typeof biasGenerator !== "function") throw new TypeError("BiasGenerator must be a function");
 
-
     const nodes = [];
     // create input nodes
     nodes.push([]);
@@ -90,6 +89,11 @@ class NeuralNetwork {
       + "\nNodesPerLayer: " + amountNodesPerLayer;
   }
   neuronActivationFunction = reLU;
+  /**
+   * Returns a 2D array with the biases of all neurons in the neural network.
+   * The first dimension represents the layer, the second the neurons in that layer.
+   * @returns {number[][]}
+   */
   returnBiases() {
     const biases = [];
     for (const layer of this.nodes) {
@@ -100,6 +104,12 @@ class NeuralNetwork {
     }
     return biases;
   }
+  /**
+   * Returns a 3D array with the weights of all edges in the neural network.
+   * The first dimension represents the layer, the second the neurons in that layer,
+   * the third the edges of each neuron.
+   * @returns {number[][][]}
+   */
   returnWeights() {
     const weights = [];
     for (const layer of this.nodes) {
@@ -113,7 +123,11 @@ class NeuralNetwork {
     }
     return weights;
   }
-
+  /**
+   * Fires the neural network with given inputs.
+   * @param {number[]} userInputs - The inputs to the neural network
+   * @returns {number[]} - The output of the neural network
+   */
   fire(userInputs) {
     let nextLayerValues = [];
     for (let i = 0; i < this.nodes[1].length; i++) {
@@ -150,6 +164,10 @@ class NeuralNetwork {
     }
     this.finalOperation = value;
   }
+  /**
+   * Iterates over each node in the NeuralNetwork and calls the user provided function
+   * @param {function} userFunction - The function to be called on each node
+   */
   iterateEachNode(userFunction) {
     for (let layer of this.nodes) {
       for (let node of layer) {
@@ -157,6 +175,10 @@ class NeuralNetwork {
       }
     }
   }
+  /**
+   * Creates a deep copy of the NeuralNetwork instance
+   * @returns {NeuralNetwork} A new NeuralNetwork instance with the same properties as the original
+   */
   clone() {
     const newNNinstance = new this.constructor(
       this.nodes[0].length,
@@ -170,29 +192,6 @@ class NeuralNetwork {
     newNNinstance.neuronActivationFunction = this.neuronActivationFunction;
     newNNinstance.nodes = deepClone(this.nodes);
     return newNNinstance;
-  }
-  returnBiasMatrix() {
-    const biasMatrix = [];
-    for (const layer of this.nodes) {
-      biasMatrix.push([])
-      for (const node of layer) {
-        biasMatrix[biasMatrix.length - 1].push(node.bias);
-      }
-    }
-    return biasMatrix;
-  }
-  returnWeightMatrix() {
-    const weightMatrix = [];
-    for (const layer of this.nodes) {
-      weightMatrix.push([])
-      for (const node of layer) {
-        weightMatrix[weightMatrix.length - 1].push([])
-        for (const edge of node.edges) {
-          weightMatrix[weightMatrix.length - 1][weightMatrix[weightMatrix.length - 1].length - 1].push(edge.weight);
-        }
-      }
-    }
-    return weightMatrix;
   }
   //Utilities
   static randomFloatBetween = randomFloatBetween;
