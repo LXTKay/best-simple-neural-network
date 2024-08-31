@@ -1,6 +1,7 @@
 import NeuralNetwork from "./nn.js";
 
-const nn = new NeuralNetwork(5, 5, 10, 4);
 
-console.log(nn.info);
-console.log(nn.fire([1.5, -1, 2, 4, 1]));
+const nn = new NeuralNetwork(2, 1, 3, 3);
+console.log(nn.nodes);
+const nn2 = nn.clone();
+console.log(nn2.nodes);

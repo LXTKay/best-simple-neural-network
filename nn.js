@@ -1,7 +1,11 @@
 "use strict";
 import { randomNumberBetween, randomFloatBetween } from "./utility/randomNumberBetween.js";
 import reLU from "./utility/reLU.js";
+import sigmoid from "./utility/sigmoid.js";
 import softmax from "./utility/softmax.js";
+import tanh from "./utility/tanh.js";
+import leakyReLu from "./utility/leakyReLU.js";
+import deepClone from "./utility/deepClone.js";
 
 class Node {
   constructor(bias) {
@@ -17,6 +21,16 @@ class Edge {
   }
 }
 
+/**
+ * The NeuralNetwork class creates a neural network instance.
+ *
+ * @param {number} amountInputNodes - The number of inputs the neural network receives
+ * @param {number} amountOutputNodes - The number of outputs the neural network produces
+ * @param {number} amountHiddenLayers - The number of hidden layers in the neural nework
+ * @param {number} amountNodesPerLayer - The number of neurons per hidden layer
+ * @param {function} weightGenerator - (Optional) The function that generates the weights
+ * @param {function} biasGenerator - (Optional) The function that generates the bias
+ */
 class NeuralNetwork {
   constructor(
     amountInputNodes,
@@ -133,12 +147,36 @@ class NeuralNetwork {
     }
     this.finalOperation = value;
   }
+  iterateEachNode(userFunction) {
+    for (let layer of this.nodes) {
+      for (let node of layer) {
+        userFunction(node);
+      }
+    }
+  }
+  clone() {
+    const newNNinstance = new this.constructor(
+      this.nodes[0].length,
+      this.nodes[this.nodes.length - 1].length,
+      this.nodes.length - 2,
+      this.nodes[2] ? this.nodes[1].length : 0,
+      this.weightGenerator,
+      this.biasGenerator
+    );
+    newNNinstance.finalOperation = this.finalOperation;
+    newNNinstance.neuronActivationFunction = this.neuronActivationFunction;
+    newNNinstance.nodes = deepClone(this.nodes);
+    return newNNinstance;
+  }
   //Utilities
   static randomFloatBetween = randomFloatBetween;
   static randomNumberBetween = randomNumberBetween;
   neuronActivationFunction = reLU;
-  reLU = reLU;
-
+  static reLU = reLU;
+  static sigmoid = sigmoid;
+  static tanh = tanh;
+  static leakyReLU = leakyReLU;
+  static softmax = softmax;
 }
 
 export default NeuralNetwork;
