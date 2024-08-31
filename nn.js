@@ -4,8 +4,9 @@ import reLU from "./utility/reLU.js";
 import sigmoid from "./utility/sigmoid.js";
 import softmax from "./utility/softmax.js";
 import tanh from "./utility/tanh.js";
-import leakyReLu from "./utility/leakyReLU.js";
+import leakyReLU from "./utility/leakyReLU.js";
 import deepClone from "./utility/deepClone.js";
+import rotateMatrix from "./utility/rotateMatrix.js";
 
 class Node {
   constructor(bias) {
@@ -21,17 +22,19 @@ class Edge {
   }
 }
 
-/**
+
+class NeuralNetwork {
+  /**
  * The NeuralNetwork class creates a neural network instance.
- *
+ * @constructor
  * @param {number} amountInputNodes - The number of inputs the neural network receives
  * @param {number} amountOutputNodes - The number of outputs the neural network produces
  * @param {number} amountHiddenLayers - The number of hidden layers in the neural nework
  * @param {number} amountNodesPerLayer - The number of neurons per hidden layer
- * @param {function} weightGenerator - (Optional) The function that generates the weights
- * @param {function} biasGenerator - (Optional) The function that generates the bias
+ * @param {Function} [weightGenerator] - (Optional) The function that generates the weights
+ * @param {Function} [biasGenerator] - (Optional) The function that generates the bias
+ * @returns {Object}
  */
-class NeuralNetwork {
   constructor(
     amountInputNodes,
     amountOutputNodes,
@@ -86,7 +89,7 @@ class NeuralNetwork {
       + "\nHiddenLayers: " + amountHiddenLayers
       + "\nNodesPerLayer: " + amountNodesPerLayer;
   }
-
+  neuronActivationFunction = reLU;
   returnBiases() {
     const biases = [];
     for (const layer of this.nodes) {
@@ -168,15 +171,38 @@ class NeuralNetwork {
     newNNinstance.nodes = deepClone(this.nodes);
     return newNNinstance;
   }
+  returnBiasMatrix() {
+    const biasMatrix = [];
+    for (const layer of this.nodes) {
+      biasMatrix.push([])
+      for (const node of layer) {
+        biasMatrix[biasMatrix.length - 1].push(node.bias);
+      }
+    }
+    return biasMatrix;
+  }
+  returnWeightMatrix() {
+    const weightMatrix = [];
+    for (const layer of this.nodes) {
+      weightMatrix.push([])
+      for (const node of layer) {
+        weightMatrix[weightMatrix.length - 1].push([])
+        for (const edge of node.edges) {
+          weightMatrix[weightMatrix.length - 1][weightMatrix[weightMatrix.length - 1].length - 1].push(edge.weight);
+        }
+      }
+    }
+    return weightMatrix;
+  }
   //Utilities
   static randomFloatBetween = randomFloatBetween;
   static randomNumberBetween = randomNumberBetween;
-  neuronActivationFunction = reLU;
   static reLU = reLU;
   static sigmoid = sigmoid;
   static tanh = tanh;
   static leakyReLU = leakyReLU;
   static softmax = softmax;
+  static rotateMatrix = rotateMatrix;
 }
 
 export default NeuralNetwork;

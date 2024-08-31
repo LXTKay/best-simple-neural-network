@@ -8,6 +8,13 @@ function numberSafetyCheck(array) {
   return array;
 }
 
+/**
+ * The softmax activation function takes an array of numbers and normalises them so that the sum of
+ * all elements is 1.
+ *
+ * @param {number[]} inputArray - Array of input values
+ * @returns {number[]} Normalised output array
+ */
 export default function softmax(inputArray) {
   inputArray = numberSafetyCheck(inputArray);
   const MAX = Math.max(...inputArray);
