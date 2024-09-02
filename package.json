@@ -1,6 +1,6 @@
 {
   "name": "simple-neural-network",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A simple neural network class to get your machine learning project started!",
   "main": "index.node.js",
   "module": "index.js",
