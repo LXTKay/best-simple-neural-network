@@ -1,5 +1,5 @@
 {
-  "name": "simple-neural-network",
+  "name": "best-simple-neural-network",
   "version": "1.0.0",
   "description": "A simple neural network class to get your machine learning project started!",
   "main": "index.node.js",
