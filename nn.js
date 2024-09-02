@@ -1,12 +1,12 @@
 "use strict";
-import { randomNumberBetween, randomFloatBetween } from "../utility/randomNumberBetween.js";
-import reLU from "../utility/reLU.js";
-import sigmoid from "../utility/sigmoid.js";
-import softmax from "../utility/softmax.js";
-import tanh from "../utility/tanh.js";
-import leakyReLU from "../utility/leakyReLU.js";
-import deepClone from "../utility/deepClone.js";
-import rotateMatrix from "../utility/rotateMatrix.js";
+import { randomNumberBetween, randomFloatBetween } from "./utility/randomNumberBetween.js";
+import reLU from "./utility/reLU.js";
+import sigmoid from "./utility/sigmoid.js";
+import softmax from "./utility/softmax.js";
+import tanh from "./utility/tanh.js";
+import leakyReLU from "./utility/leakyReLU.js";
+import deepClone from "./utility/deepClone.js";
+import rotateMatrix from "./utility/rotateMatrix.js";
 
 class Node {
   constructor(bias) {
