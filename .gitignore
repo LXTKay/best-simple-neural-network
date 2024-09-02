@@ -1,5 +1,11 @@
 test
+test.js
 .env
 notes.txt
 launch.json
 .vscode
+.vscode/
+node_modules
+.cache
+webpack.config.js
+.babelrc
