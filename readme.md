@@ -146,17 +146,17 @@ new NeuralNetwork(2,4,6,8,seed, seed)
 ```javascript
 NeuralNetwork.rotateMatrix(
 	[
-		[ 1, 2, 3],
+		[1, 2, 3],
 		[4, 5, 6],
 		[7, 8, 9]
 	]
 )
 /*Returns:
-[ 
-	[ 1, 4, 7 ], 
-	[ 2, 5, 8 ], 
-	[ 3, 6, 9 ]
-]*/
+	[ 
+		[ 1, 4, 7 ], 
+		[ 2, 5, 8 ], 
+		[ 3, 6, 9 ]
+	]*/
 ```
 ### Neural Network Instance Properties
 
