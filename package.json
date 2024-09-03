@@ -1,6 +1,6 @@
 {
   "name": "best-simple-neural-network",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple neural network class to get your machine learning project started!",
   "main": "index.node.js",
   "module": "index.js",
@@ -26,5 +26,9 @@
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4"
   },
-  "type": "module"
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LXTKay/best-simple-neural-network.git"
+  }
 }
