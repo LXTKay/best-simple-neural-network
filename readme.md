@@ -182,3 +182,5 @@ nn.neuronActivationFunction = NeuralNetwork.sigmoid //Assign your own activation
 `.finalOperation(number[])` Can be a function or `null`. Takes the output of the hidden layer as an array, and returns whatever the set function returns. If set to `null`, `.fire()` will return the raw output of your output layer. By default it is set to the softmax activation function (see utility section).
 
 `.iterateEachNode(<function(<Node>))` Takes a custom function as an argument. Iterates through each node in each layer and executes your provided function. The node gets provided to your functions first argument.
+
+`.clone()` Returns a copy of the neural network instance. Most importantly, it clones `.nodes` by value. All other non-primitive properties are cloned by reference.
