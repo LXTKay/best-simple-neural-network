@@ -96,7 +96,7 @@ The `edges` array contains edge-objects. Similar to the aforementioned node-obje
 	nextNode: <Node>
 }
 ```
-If you rather work with raw numbers in arrays, you can use the `.returnWeights()` and `.returnBiases()` methods. See documentation further down.
+If you rather work with raw numbers in arrays, see documentation further down.
 
 `nextNode` points to a node-object in the next layer. By default every node in each layer is connected to every node in the next layer. If you want to do any edits, you have to do them manually. Keep in mind that the provided activation chain may break, if you add cross-connections, so you must provide your own function for that.
 
