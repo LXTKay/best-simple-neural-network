@@ -104,7 +104,7 @@ If you rather work with raw numbers in arrays, see documentation further down.
 `nn.fire(<Array>)` invokes the activation chain. You must provide a numbers-array with an equal length as your input layer. In the example we provide two numbers, since we have two input nodes.
 It returns an array with the length of the output layer, containing the resulting values of all operations.
 The activation-chain is very classical. Input * Weight gets forwarded through each edge, the receiving node adds its bias to the sum, applies an activation function, and the process repeats until the last layer.
-The neural network class comes with a couple activation functions, that can be applied to each result of each node. Be default it uses the rectified linear unit function, that is commonly used in machine learning. More info in the documentation.
+The neural network class comes with a couple activation functions, that can be applied to each result of each node. By default it uses the rectified linear unit function, that is commonly used in machine learning. More info in the documentation.
 By default, all values in the output layer get fed into a softmax activation function, which normalizes the results, so that every number coming from the output layer, adds up to 1.
 You can turn that off by setting `nn.finalOperation = null`.
 
