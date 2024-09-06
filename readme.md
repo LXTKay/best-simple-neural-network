@@ -49,6 +49,7 @@ The third argument is the amount of hidden layers, between the input layer and t
 The fourth argument is the amount of nodes per hidden layer. 
 So our freshly created neural network looks like that:
 
+*(If you dont see a diagram here, head over to the [github page](https://github.com/LXTKay/best-simple-neural-network).)*
 ```mermaid
 flowchart LR
 subgraph input layer
@@ -80,7 +81,7 @@ The constructor also takes a fifth and a sixth (optional) argument. You can prov
 
 `nn.info` Is a string with the most important info about this particular instance. It is created at instanciation and doesn't change after that. Keep that in mind.
 
-`nn.nodes` Is the most important property! It contains the actual network. `.nodes` is a 2D array, containing each of your networks layers as an array. Each of those layer-arrays contain objects, which represent the nodes of your neuronal network.
+`nn.nodes` Is the most important property! It contains the actual network. `.nodes` is a 2D array, containing each of your networks layers as an array. Each of those layer-arrays contain objects, which represent the nodes of your neural network.
 The node-objects look like this:
 ```javascript
 {
@@ -95,12 +96,14 @@ The `edges` array contains edge-objects. Similar to the aforementioned node-obje
 	nextNode: <Node>
 }
 ```
+If you rather work with raw numbers in arrays, you can use the `.returnWeights()` and `.returnBiases()` methods. See documentation further down.
+
 `nextNode` points to a node-object in the next layer. By default every node in each layer is connected to every node in the next layer. If you want to do any edits, you have to do them manually. Keep in mind that the provided activation chain may break, if you add cross-connections, so you must provide your own function for that.
 
 `nn.fire(<Array>)` invokes the activation chain. You must provide a numbers-array with an equal length as your input layer. In the example we provide two numbers, since we have two input nodes.
 It returns an array with the length of the output layer, containing the resulting values of all operations.
-The activation-chain is very classical. Input * Bias gets forwarded through each edge, the receiving node adds its bias to the sum, applies an activation function, and the process repeats until the last layer.
-The neuronal network class comes with a couple activation functions, that can be applied to each result of each node. Be default it uses the rectified linear unit function, that is commonly used in machine learning. More info in the documentation.
+The activation-chain is very classical. Input * Weight gets forwarded through each edge, the receiving node adds its bias to the sum, applies an activation function, and the process repeats until the last layer.
+The neural network class comes with a couple activation functions, that can be applied to each result of each node. Be default it uses the rectified linear unit function, that is commonly used in machine learning. More info in the documentation.
 By default, all values in the output layer get fed into a softmax activation function, which normalizes the results, so that every number coming from the output layer, adds up to 1.
 You can turn that off by setting `nn.finalOperation = null`.
 
